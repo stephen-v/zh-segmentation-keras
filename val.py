@@ -1,7 +1,7 @@
 import pickle
 import lstm_model
 
-with open('data/data.pkl', 'rb') as inp:
+with open('model/chars.pkl', 'rb') as inp:
     chars = pickle.load(inp)
 word_size = 128
 maxlen = 32
@@ -71,3 +71,5 @@ def cut_word(s):
         j = i.end()
     result.extend(simple_cut(s[j:]))
     return result
+
+print(cut_word('使得能够捕捉更长距离的信息'))

@@ -84,10 +84,8 @@ d['y'] = d['label'].apply(trans_one)
 
 import lstm_model
 
-model = lstm_model.create_model(maxlen, chars, word_size)
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
+model = lstm_model.create_model_crf(maxlen, chars, word_size)
 batch_size = 1024
 history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
                     nb_epoch=20, verbose=2)
-model.save('model/model.h5')
+model.save('model/model_CRF.h5')

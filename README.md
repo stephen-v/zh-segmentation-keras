@@ -2,7 +2,7 @@
 Chinese segmentation simple by keras 
 
 ## requirements
-* keras 
+* keras==2.1.14
 * pandas 
 * numpy
 

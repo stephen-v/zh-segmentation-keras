@@ -1,7 +1,10 @@
 # zh-segmentation-keras
 Chinese segmentation simple by keras 
 
-
+## requirements
+* keras 
+* pandas 
+* numpy
 
 # 基于双向BiLstm以及HMM模型的中文分词详解及源码
 > 在自然语言处理中（NLP，Natural Language ProcessingNLP，Natural Language Processing），分词是一个较为简单也基础的基本技术。常用的分词方法包括这两种：**基于字典的机械分词** 和 **基于统计序列标注的分词**。对于基于字典的机械分词本文不再赘述，可看[字典分词方法](https://spaces.ac.cn/archives/3908 "字典分词方法")。在本文中主要讲解基于深度学习的分词方法及原理，包括一下几个步骤：`1标注序列`，`2双向LSTM网络预测标签`，`3Viterbi算法求解最优路径`

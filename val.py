@@ -7,8 +7,8 @@ with open('model/chars.pkl', 'rb') as inp:
 word_size = 128
 maxlen = 32
 
-model = lstm_model.create_model_crf(maxlen, chars, word_size)
-model.load_weights('model/model_CRF.h5', by_name=True)
+model = lstm_model.create_model(maxlen, chars, word_size,True)
+model.load_weights('model/model.h5', by_name=True)
 
 import re
 import numpy as np
@@ -56,9 +56,9 @@ def viterbi(nodes):
 
 def simple_cut(s):
     if s:
-        input =np.array([list(chars[list(s)].fillna(0).astype(int)) + [0] * (maxlen - len(s))])
-        print(input)
-        r = model.predict(input)
+        r = model.predict(np.array([list(chars[list(s)].fillna(0).astype(int)) + [0] * (maxlen - len(s))]),
+                          verbose=False)[
+                0][:len(s)]
         r = np.log(r)
         nodes = [dict(zip(['s', 'b', 'm', 'e'], i[:4])) for i in r]
         t = viterbi(nodes)
@@ -87,4 +87,4 @@ def cut_word(s):
     return result
 
 
-print(cut_word('我们是共产党员'))
+print(cut_word('学习出一个模型，然后再预测出一条指定'))

@@ -7,8 +7,8 @@ with open('model/chars.pkl', 'rb') as inp:
 word_size = 128
 maxlen = 32
 
-model = lstm_model.create_model(maxlen, chars, word_size)
-model.load_weights('model/model.h5', by_name=True)
+model = lstm_model.create_model_crf(maxlen, chars, word_size)
+model.load_weights('model/model_CRF.h5', by_name=True)
 
 import re
 import numpy as np
@@ -56,11 +56,10 @@ def viterbi(nodes):
 
 def simple_cut(s):
     if s:
-        r = model.predict(np.array([list(chars[list(s)].fillna(0).astype(int)) + [0] * (maxlen - len(s))]),
-                          verbose=False)[
-                0][:len(s)]
+        input =np.array([list(chars[list(s)].fillna(0).astype(int)) + [0] * (maxlen - len(s))])
+        print(input)
+        r = model.predict(input)
         r = np.log(r)
-        print(r)
         nodes = [dict(zip(['s', 'b', 'm', 'e'], i[:4])) for i in r]
         t = viterbi(nodes)
         words = []
@@ -88,4 +87,4 @@ def cut_word(s):
     return result
 
 
-print(cut_word('深度学习主要是特征学习'))
+print(cut_word('我们是共产党员'))

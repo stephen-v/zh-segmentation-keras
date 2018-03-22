@@ -1,4 +1,4 @@
-from keras.layers import Dense, Embedding, LSTM, TimeDistributed, Input, Bidirectional
+from keras.layers import Dense, Embedding, LSTM, TimeDistributed, Input, Bidirectional, Dropout
 from keras.models import Model
 from keras_contrib.layers import CRF
 
@@ -28,10 +28,12 @@ def create_model_crf(maxlen, chars, word_size):
     :param word_size:
     :return:
     """
-    sequence = Input(shape=(maxlen,), dtype='int32')
+    dropout = 0.5
+    sequence = Input(shape=(maxlen), dtype='int32')
     embedded = Embedding(len(chars) + 1, word_size, input_length=maxlen, mask_zero=True)(sequence)
     blstm = Bidirectional(LSTM(64, return_sequences=True), merge_mode='sum')(embedded)
-    output = TimeDistributed(Dense(5, activation='softmax'), )(blstm)
+    output = Dropout(dropout)(blstm)
+    output = Dense(5)(output)
     crf = CRF(5, sparse_target=True)
     output = crf(output)
     model = Model(input=sequence, output=output)

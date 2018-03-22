@@ -3,6 +3,7 @@
 import re
 import numpy as np
 import pandas as pd
+import lstm_model
 
 # 设计模型
 word_size = 128
@@ -82,10 +83,31 @@ def trans_one(x):
 
 d['y'] = d['label'].apply(trans_one)
 
-import lstm_model
 
-model = lstm_model.create_model_crf(maxlen, chars, word_size)
-batch_size = 1024
-history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
-                    nb_epoch=20, verbose=2)
-model.save('model/model_CRF.h5')
+def train_bilstm():
+    """
+    train bilistm
+    :return:
+    """
+    print("start train bilstm")
+    model = lstm_model.create_model(maxlen, chars, word_size)
+    batch_size = 1024
+    history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
+                        nb_epoch=20, verbose=2)
+    model.save('model/model.h5')
+
+
+def train_bilstm_crf():
+    """
+
+    :return:
+    """
+    print("start train bilstm + crf ")
+    model = lstm_model.create_model_crf(maxlen, chars, word_size)
+    batch_size = 1024
+    history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
+                        nb_epoch=20, verbose=2)
+    model.save('model/model_CRF.h5')
+
+
+train_bilstm_crf()

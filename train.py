@@ -93,21 +93,7 @@ def train_bilstm():
     model = lstm_model.create_model(maxlen, chars, word_size)
     batch_size = 1024
     history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
-                        nb_epoch=20, verbose=2)
+                        epochs=20, verbose=2)
     model.save('model/model.h5')
 
-
-def train_bilstm_crf():
-    """
-
-    :return:
-    """
-    print("start train bilstm + crf ")
-    model = lstm_model.create_model_crf(maxlen, chars, word_size)
-    batch_size = 1024
-    history = model.fit(np.array(list(d['x'])), np.array(list(d['y'])).reshape((-1, maxlen, 5)), batch_size=batch_size,
-                        nb_epoch=20, verbose=2)
-    model.save('model/model_CRF.h5')
-
-
-train_bilstm_crf()
+train_bilstm()

@@ -87,4 +87,4 @@ def cut_word(s):
     return result
 
 
-print(cut_word('学习出一个模型，然后再预测出一条指定'))
+print(cut_word('中华人民共和国国务院总理周恩来在外交部长陈毅的陪同下，连续访问了埃塞俄比亚等非洲10国以及阿尔巴尼亚'))
